@@ -4,12 +4,15 @@ def setup_files
 	path = File.join(File.dirname(__FILE__), '../data/products.json')
 	file = File.read(path)
 	$products_hash = JSON.parse(file)
-	$stdout.reopen("report.txt", "w+")
+	$stdout.reopen(File.open('report.txt', 'w+'))
 end
 
 # Print "Sales Report" in ascii art
 
 # Print today's date
+def print_date
+  puts Time.now.strftime("Today's Date: %d/%m/%Y")
+end
 
 # Print "Products" in ascii art
 
@@ -29,8 +32,13 @@ end
 	# Calculate and print the average price of the brand's toys
 	# Calculate and print the total sales volume of all the brand's toys combined
 
+def create_report
+	print_date
+end
+
 def start
 	setup_files # load, read, parse, and create the files
+	create_report # create the report!
 end
 
 start # call start method to trigger report generation
