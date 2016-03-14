@@ -8,6 +8,15 @@ def setup_files
 end
 
 # Print "Sales Report" in ascii art
+def print_sales_report_ascii
+  puts "  ______       _                ______                                "
+  puts " / _____)     | |              (_____ \\                           _   "
+  puts "( (____  _____| | _____  ___    _____) )_____ ____   ___   ____ _| |_ "
+  puts " \\____ \\(____ | || ___ |/___)  |  __  /| ___ |  _ \\ / _ \\ / ___|_   _)"
+  puts " _____) ) ___ | || ____|___ |  | |  \\ \\| ____| |_| | |_| | |     | |_ "
+  puts "(______/\\_____|\\_)_____|___/   |_|   |_|_____)  __/ \\___/|_|      \\__)"
+  puts "                                             |_|  "
+end
 
 # Print today's date
 def print_date
@@ -126,6 +135,7 @@ end
   # Calculate and print the total sales volume of all the brand's toys combined
 
 def create_report
+  print_sales_report_ascii
   print_date
   $brands = {}
   handle_products
