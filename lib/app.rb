@@ -76,8 +76,8 @@ def init_brand_info(brand_title)
 end
 
 def collect_brand_info(brand_title, toy, product)
-	brand = $brands[brand_title]
-	brand[:stock] += toy["stock"].to_i
+  brand = $brands[brand_title]
+  brand[:stock] += toy["stock"].to_i
   brand[:prices].push(product[:retail_price])
   brand[:total_sales].push(product[:total_sales])
 end
@@ -95,6 +95,29 @@ def handle_products
 end
 
 # Print "Brands" in ascii art
+def print_brands_ascii
+  puts " _                         _     "
+  puts "| |                       | |    "
+  puts "| |__  _ __ __ _ _ __   __| |___ "
+  puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+  puts "| |_) | | | (_| | | | | (_| \\__ \\"
+  puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+  puts
+end
+
+def print_brands
+  print_brands_ascii
+  $brands.each do |title, value|
+    puts title
+    print_separator
+    puts "Number of Products: #{value[:stock]}"
+    average_price = (value[:prices].reduce(:+) / value[:prices].length).round(2)
+    puts "Average Product Price: $#{average_price}"
+    total_sales = value[:total_sales].reduce(:+).round(2)
+    puts "Total Sales: $#{total_sales}"
+    print_blank_line
+  end
+end
 
 # For each brand in the data set:
   # Print the name of the brand
@@ -106,6 +129,7 @@ def create_report
   print_date
   $brands = {}
   handle_products
+  print_brands
 end
 
 def start
