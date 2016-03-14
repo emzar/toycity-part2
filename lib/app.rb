@@ -112,6 +112,12 @@ def print_brands_ascii
   puts
 end
 
+# For each brand in the data set:
+  # Print the name of the brand
+  # Count and print the number of the brand's toys we stock
+  # Calculate and print the average price of the brand's toys
+  # Calculate and print the total sales volume of all the brand's toys combined
+
 def print_brands
   print_brands_ascii
   $brands.each do |title, value|
@@ -125,12 +131,6 @@ def print_brands
     print_blank_line
   end
 end
-
-# For each brand in the data set:
-  # Print the name of the brand
-  # Count and print the number of the brand's toys we stock
-  # Calculate and print the average price of the brand's toys
-  # Calculate and print the total sales volume of all the brand's toys combined
 
 def create_report
   print_sales_report_ascii
