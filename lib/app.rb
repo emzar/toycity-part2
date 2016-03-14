@@ -1,10 +1,10 @@
 require 'json'
 
 def setup_files
-	path = File.join(File.dirname(__FILE__), '../data/products.json')
-	file = File.read(path)
-	$products_hash = JSON.parse(file)
-	$stdout.reopen(File.open('report.txt', 'w+'))
+  path = File.join(File.dirname(__FILE__), '../data/products.json')
+  file = File.read(path)
+  $products_hash = JSON.parse(file)
+  $stdout.reopen(File.open('report.txt', 'w+'))
 end
 
 # Print "Sales Report" in ascii art
@@ -27,12 +27,12 @@ def print_products_ascii
 end
 
 # For each product in the data set:
-	# Print the name of the toy
-	# Print the retail price of the toy
-	# Calculate and print the total number of purchases
-	# Calculate and print the total amount of sales
-	# Calculate and print the average price the toy sold for
-	# Calculate and print the average discount (% or $) based off the average sales price
+  # Print the name of the toy
+  # Print the retail price of the toy
+  # Calculate and print the total number of purchases
+  # Calculate and print the total amount of sales
+  # Calculate and print the average price the toy sold for
+  # Calculate and print the average discount (% or $) based off the average sales price
 
 def get_product(toy)
   product = {
@@ -71,11 +71,25 @@ def print_product(product)
   print_separator
 end
 
-def print_products
+def init_brand_info(brand_title)
+  $brands[brand_title] = {stock: 0, prices: [], total_sales: []}
+end
+
+def collect_brand_info(brand_title, toy, product)
+	brand = $brands[brand_title]
+	brand[:stock] += toy["stock"].to_i
+  brand[:prices].push(product[:retail_price])
+  brand[:total_sales].push(product[:total_sales])
+end
+
+def handle_products
   print_products_ascii
   $products_hash["items"].each do |toy|
     product = get_product(toy)
     print_product(product)
+    brand_title = toy["brand"]
+    init_brand_info(brand_title) if !$brands.has_key?(brand_title)
+    collect_brand_info(brand_title, toy, product)
   end
   print_blank_line
 end
@@ -83,19 +97,20 @@ end
 # Print "Brands" in ascii art
 
 # For each brand in the data set:
-	# Print the name of the brand
-	# Count and print the number of the brand's toys we stock
-	# Calculate and print the average price of the brand's toys
-	# Calculate and print the total sales volume of all the brand's toys combined
+  # Print the name of the brand
+  # Count and print the number of the brand's toys we stock
+  # Calculate and print the average price of the brand's toys
+  # Calculate and print the total sales volume of all the brand's toys combined
 
 def create_report
-	print_date
-	print_products
+  print_date
+  $brands = {}
+  handle_products
 end
 
 def start
-	setup_files # load, read, parse, and create the files
-	create_report # create the report!
+  setup_files # load, read, parse, and create the files
+  create_report # create the report!
 end
 
 start # call start method to trigger report generation
