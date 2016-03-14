@@ -15,6 +15,16 @@ def print_date
 end
 
 # Print "Products" in ascii art
+def print_products_ascii
+  puts "                     _            _       "
+  puts "                    | |          | |      "
+  puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
+  puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
+  puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
+  puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
+  puts "| |                                       "
+  puts "|_|                                       "
+end
 
 # For each product in the data set:
 	# Print the name of the toy
@@ -23,6 +33,52 @@ end
 	# Calculate and print the total amount of sales
 	# Calculate and print the average price the toy sold for
 	# Calculate and print the average discount (% or $) based off the average sales price
+
+def get_product(toy)
+  product = {
+    title: toy["title"],
+    retail_price: toy["full-price"].to_f,
+    purchases_number: toy["purchases"].length,
+    total_sales: 0
+  }
+  toy["purchases"].each do |purchase|
+    product[:total_sales] += purchase["price"].to_f
+  end
+  return product
+end
+
+def print_separator
+  puts "********************"
+end
+
+def print_blank_line
+  print "\n"
+end
+
+def print_product(product)
+  print_blank_line
+  puts product[:title]
+  print_separator
+  puts "Retail Price: $#{product[:retail_price]}"
+  puts "Total Purchases: #{product[:purchases_number]}"
+  puts "Total Sales: $#{product[:total_sales]}"
+  average_price = product[:total_sales] / product[:purchases_number]
+  average_discount = product[:retail_price] - average_price
+  average_discount_percentage = (average_discount * 100 / product[:retail_price]).round(2)
+  puts "Average Price: $#{average_price}"
+  puts "Average Discount: $#{average_discount}"
+  puts "Average Discount Percentage: #{average_discount_percentage}%"
+  print_separator
+end
+
+def print_products
+  print_products_ascii
+  $products_hash["items"].each do |toy|
+    product = get_product(toy)
+    print_product(product)
+  end
+  print_blank_line
+end
 
 # Print "Brands" in ascii art
 
@@ -34,6 +90,7 @@ end
 
 def create_report
 	print_date
+	print_products
 end
 
 def start
