@@ -1,7 +1,11 @@
 require 'json'
-path = File.join(File.dirname(__FILE__), '../data/products.json')
-file = File.read(path)
-products_hash = JSON.parse(file)
+
+def setup_files
+	path = File.join(File.dirname(__FILE__), '../data/products.json')
+	file = File.read(path)
+	$products_hash = JSON.parse(file)
+	$stdout.reopen("report.txt", "w+")
+end
 
 # Print "Sales Report" in ascii art
 
@@ -24,3 +28,9 @@ products_hash = JSON.parse(file)
 	# Count and print the number of the brand's toys we stock
 	# Calculate and print the average price of the brand's toys
 	# Calculate and print the total sales volume of all the brand's toys combined
+
+def start
+	setup_files # load, read, parse, and create the files
+end
+
+start # call start method to trigger report generation
