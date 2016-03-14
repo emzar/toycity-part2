@@ -56,7 +56,7 @@ def get_product(toy)
   return product
 end
 
-def print_separator
+def print_divider
   puts "********************"
 end
 
@@ -67,7 +67,7 @@ end
 def print_product(product)
   print_blank_line
   puts product[:title]
-  print_separator
+  print_divider
   puts "Retail Price: $#{product[:retail_price]}"
   puts "Total Purchases: #{product[:purchases_number]}"
   puts "Total Sales: $#{product[:total_sales]}"
@@ -77,28 +77,26 @@ def print_product(product)
   puts "Average Price: $#{average_price}"
   puts "Average Discount: $#{average_discount}"
   puts "Average Discount Percentage: #{average_discount_percentage}%"
-  print_separator
+  print_divider
 end
 
-def init_brand_info(brand_title)
+def collect_brand_info(toy, product)
+  brand_title = toy["brand"]
+  if (!$brands.has_key?(brand_title))
   $brands[brand_title] = {stock: 0, prices: [], total_sales: []}
-end
-
-def collect_brand_info(brand_title, toy, product)
-  brand = $brands[brand_title]
-  brand[:stock] += toy["stock"].to_i
-  brand[:prices].push(product[:retail_price])
-  brand[:total_sales].push(product[:total_sales])
+  end
+  $brands[brand_title][:stock] += toy["stock"].to_i
+  $brands[brand_title][:prices].push(product[:retail_price])
+  $brands[brand_title][:total_sales].push(product[:total_sales])
 end
 
 def handle_products
   print_products_ascii
+  $brands = {}
   $products_hash["items"].each do |toy|
     product = get_product(toy)
     print_product(product)
-    brand_title = toy["brand"]
-    init_brand_info(brand_title) if !$brands.has_key?(brand_title)
-    collect_brand_info(brand_title, toy, product)
+    collect_brand_info(toy, product)
   end
   print_blank_line
 end
@@ -118,7 +116,7 @@ def print_brands
   print_brands_ascii
   $brands.each do |title, value|
     puts title
-    print_separator
+    print_divider
     puts "Number of Products: #{value[:stock]}"
     average_price = (value[:prices].reduce(:+) / value[:prices].length).round(2)
     puts "Average Product Price: $#{average_price}"
@@ -137,7 +135,6 @@ end
 def create_report
   print_sales_report_ascii
   print_date
-  $brands = {}
   handle_products
   print_brands
 end
